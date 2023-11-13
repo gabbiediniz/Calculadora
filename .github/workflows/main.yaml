@@ -19,13 +19,31 @@ jobs:
     needs: [semantic-pull-request, analyze]
     runs-on: ubuntu-latest
     steps:
-      - name: 📚 Git Checkout
-        uses: actions/checkout@v3
-      - name: 🐦 Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2.11.0
         with:
-          channel: "stable"
-          flutter-version: 3.13.5
+          channel: ${{matrix.channel}}
+          flutter-version: "3.10.2"
+          cache: false
+
+      - name: Install Dependencies
+        run: |
+          flutter pub global activate very_good_cli
+          very_good --analytics false
+          very_good packages get --recursive
+      - name: Format
+        run: dart format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Verify Generated Files Committed
+        run: flutter test ./test/ensure_build_test.dart --run-skipped
+
+      - name: Run tests
+        run: very_good test -x presubmit-only --coverage --test-randomize-ordering-seed random
+
       - name: Check for existing and non-empty coverage file
         id: test_coverage_file
         run: if [ -s "/coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_ENV ; else echo "result=false" >> $GITHUB_ENV; fi
@@ -35,11 +53,6 @@ jobs:
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
           path: '/coverage/lcov.info'
-      - name: 📦 Install Dependencies
-        run: |
-          flutter pub global activate very_good_cli
-          very_good --analytics false
-          very_good packages get --recursive
       - name: 🛠️ Build the application
         run: flutter build web -t lib/main.dart
       - name: ⬇️ Archive Production Artifact

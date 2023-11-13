@@ -7,12 +7,12 @@ jobs:
     name: "Semantic"
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
 
-  # analyze:
-  #   name: "Analyze"
-  #   uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
-  #   with:
-  #     flutter_channel: stable
-  #     flutter_version: 3.13.5
+  analyze:
+    name: "Analyze"
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_channel: stable
+      flutter_version: 3.13.5
 
   build:
     name: Build
@@ -26,6 +26,15 @@ jobs:
         with:
           channel: "stable"
           flutter-version: 3.13.5
+      - name: Check for existing and non-empty coverage file
+        id: test_coverage_file
+        run: if [ -s "/coverage/lcov.info" ]; then echo "result=true" >> $GITHUB_ENV ; else echo "result=false" >> $GITHUB_ENV; fi
+
+      - name: Very Good Coverage
+        if: steps.test_coverage_file.outputs.result == 'true'
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: '/coverage/lcov.info'
       - name: 📦 Install Dependencies
         run: |
           flutter pub global activate very_good_cli

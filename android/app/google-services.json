@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191398930487",
+    "project_id": "calculadora-da-gabi",
+    "storage_bucket": "calculadora-da-gabi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191398930487:android:88269038b2deed4a0cb7b2",
+        "android_client_info": {
+          "package_name": "com.electrogear.calculadora_da_gabi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRf0jFQu8t3L7n3zwSuyZfD7Bw9LhsE1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

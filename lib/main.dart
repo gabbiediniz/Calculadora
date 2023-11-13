@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() async {
+Future<void> main() async {
   await Firebase.initializeApp(
-    options: Defafirebase init hostingultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   runApp(const MyApp());

@@ -32,7 +32,7 @@ jobs:
           very_good --analytics false
           very_good packages get --recursive
       - name: 🛠️ Build the application
-        run: flutter build web -t lib/main_production.dart
+        run: flutter build web -t lib/main.dart
       - name: ⬇️ Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
@@ -57,4 +57,4 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.$YOUR_FIREBASE_SERVICE_ACCOUNT_FLUTTER_WEB_DEPLOY }}"
           channelId: live
-          projectId: $YOUR_FIREBASE_PROJECT_ID
+          projectId: calculadora-da-gabi
